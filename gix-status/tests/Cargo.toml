@@ -17,7 +17,7 @@ path = "worktree.rs"
 gix-features-parallel = ["gix-features/parallel"]
 
 [dev-dependencies]
-gix-status = { path = ".." }
+gix-status = { path = "..", features = ["worktree-rewrites"] }
 gix-testtools = { path = "../../tests/tools" }
 gix-index = { path = "../../gix-index" }
 gix-fs = { path = "../../gix-fs" }

@@ -2543,7 +2543,10 @@ name = "gix-status"
 version = "0.6.0"
 dependencies = [
  "bstr",
+ "document-features",
  "filetime",
+ "gix-diff",
+ "gix-dir",
  "gix-features 0.38.0",
  "gix-filter",
  "gix-fs 0.10.0",

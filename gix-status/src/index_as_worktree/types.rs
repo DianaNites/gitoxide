@@ -37,6 +37,9 @@ pub struct Options {
 #[derive(Clone)]
 pub struct Context<'a> {
     /// The pathspec to limit the amount of paths that are checked. Can be empty to allow all paths.
+    ///
+    /// Note that these are expected to have a [commont_prefix()](gix_pathspec::Search::common_prefix()) according
+    /// to the prefix of the repository to efficiently limit the scope of the paths we process.
     pub pathspec: gix_pathspec::Search,
     /// A stack pre-configured to allow accessing attributes for each entry, as required for `filter`
     /// and possibly pathspecs.
