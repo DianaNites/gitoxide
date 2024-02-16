@@ -1,6 +1,5 @@
 use crate::bstr::BStr;
 use crate::{config, dirwalk, Repository};
-use std::path::Path;
 
 /// The error returned by [dirwalk()](Repository::dirwalk()).
 #[derive(Debug, thiserror::Error)]
@@ -60,13 +59,11 @@ impl Repository {
             )?
             .into_parts();
 
-        let prefix = self.prefix()?.unwrap_or(Path::new(""));
         let git_dir_realpath =
             crate::path::realpath_opts(self.git_dir(), self.current_dir(), crate::path::realpath::MAX_SYMLINKS)?;
         let fs_caps = self.filesystem_options()?;
         let accelerate_lookup = fs_caps.ignore_case.then(|| index.prepare_icase_backing());
         gix_dir::walk(
-            &workdir.join(prefix),
             workdir,
             gix_dir::walk::Context {
                 git_dir_realpath: git_dir_realpath.as_ref(),
@@ -85,6 +82,7 @@ impl Repository {
                 },
                 excludes: Some(&mut excludes),
                 objects: &self.objects,
+                explicit_traversal_root: None,
             },
             options.into(),
             delegate,
