@@ -1329,6 +1329,7 @@ dependencies = [
  "crossbeam-channel",
  "document-features",
  "fs-err",
+ "fs_extra",
  "futures-io",
  "futures-lite",
  "gix",

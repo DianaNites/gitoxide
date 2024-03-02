@@ -215,7 +215,22 @@ fn handle(
                 std::fs::rename(&tempdest, &destination)?;
             } else {
                 std::fs::create_dir_all(destination.parent().expect("repo destination is not the root"))?;
-                std::fs::rename(git_workdir, &destination)?;
+                // Error code 18, EXDEV, Invalid cross-device link, destination is on a different mount-point
+                // retry with a copy to the destination instead
+                match std::fs::rename(git_workdir, &destination) {
+                    Err(e) if e.raw_os_error() == Some(18) => {
+                        fs_extra::move_items_with_progress(
+                            &[git_workdir],
+                            &destination,
+                            &fs_extra::dir::CopyOptions::new().copy_inside(true),
+                            |_| {
+                                progress.inc();
+                                fs_extra::dir::TransitProcessResult::ContinueOrAbort
+                            },
+                        )?;
+                    }
+                    e => e?,
+                }
             }
             progress.done(format!("Moving {} to {}", git_workdir.display(), destination.display()));
         }

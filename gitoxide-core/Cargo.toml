@@ -18,7 +18,7 @@ default = []
 
 #! ### Tools
 ## Discover all git repositories within a directory. Particularly useful with [skim](https://github.com/lotabout/skim).
-organize = ["dep:gix-url", "dep:jwalk"]
+organize = ["dep:gix-url", "dep:jwalk", "dep:fs_extra"]
 ## Derive the amount of time invested into a git repository akin to [git-hours](https://github.com/kimmobrunfeldt/git-hours).
 estimate-hours = ["dep:fs-err", "dep:crossbeam-channel", "dep:smallvec"]
 ## Gather information about repositories and store it in a database for easy querying.
@@ -72,6 +72,7 @@ blocking = { version = "1.0.2", optional = true }
 # for 'organize' functionality
 gix-url = { version = "^0.28.2", path = "../gix-url", optional = true }
 jwalk = { version = "0.8.0", optional = true }
+fs_extra = { version = "1.3.0", optional = true }
 
 # for 'hours'
 fs-err = { version = "2.6.0", optional = true }
